@@ -9,7 +9,7 @@ This script works for Facebook and Instagram search warrant returns, which were 
 
 1. Unzip your warrant return data
 2.  Drag and drop the 'records.html' file onto this script or .exe
--     -For some reason windows doesn't like this all the time. So you can just run the script in the same folder as your return
+    - For some reason windows doesn't like this all the time. So you can just run the script in the same folder as your return
 3. Be patient...
 4. In the directory you have the records.html file, you will now have several .csv files. One being '_threadList.csv' which should be the main navigation to each individual thread, and several other .csv files that have a single thread only.
 5. Once complete, I would recommend navigating using the _threadList.csv file, as it will contain hyperlinks to the chats. I typically convert _threadList.csv to xlsx after I format it, but the actual thread files should stay as .csv files, otherwise it will break the links.
