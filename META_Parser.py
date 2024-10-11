@@ -96,6 +96,8 @@ def strippedDataCleanup(inputTextFilePath):
                     lastKey = ''
                 else: lastKey = 'Thread '
             elif line.startswith('Current Participants: '): 
+                # Removes the date/time from Current Participants, as this is always the time that META did the data production
+                line = re.sub(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC', '', line).strip()
                 value = line.strip().split('Current Participants: ')
                 if len(value) > 1: 
                     message['Current Participants: '] = value[1]
@@ -131,11 +133,10 @@ def strippedDataCleanup(inputTextFilePath):
         for k,v in message.items(): linesToWrite.append(f'''{k}{v}''') #just handles the final write
 
     # Now that everything is further parsed in linesToWrite, we write it all to our parsed file
-    # Removes the date/time from Current Participants, as this is always the time that META did the data production
     with open(inputTextFilePath, 'w', encoding='utf-8') as outFile:
         for line in linesToWrite: 
-            if line.startswith('Current Participants: '): line = re.sub(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC', '', line).strip()
             outFile.write(f'{line}\n')
+
 
     print('Data further parsed down and pared to key:value pairs. Creating docs...')
 
@@ -173,7 +174,7 @@ def dataToThreadList(inputTextFilePath):
                         threadWriter.writerow(['Author','Datetime Sent','Body','Attachments']) # Header for thread csv
                 elif line.startswith('Current Participants'):
                     # Writes link and thread info to the index
-                    indexToFile.append(line.split('Current Participants: ')[-1])
+                    indexToFile.append(line.split('Current Participants: ')[-1].strip('\n'))
                     indexToFile.append(f'''=HYPERLINK("{currentThread.split('\\')[-1]}")''')
                     indexWriter.writerow(indexToFile)
                     indexToFile = []
