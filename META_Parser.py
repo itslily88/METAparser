@@ -155,9 +155,15 @@ def dataToThreadList(inputTextFilePath):
 
             # List to handle writing links for individual threads
             indexToFile = []
+            dataToFile = []
             # Start Parsing. First Parses the _threadList.csv entry, then parses the chat itself
             for line in inFile.readlines():
                 if line.startswith('Thread'): # Identifier that a new chat thread is starting
+                    # This is a catch for the last message of the previous thread. Without this catch, the last message of the previous thread
+                    # Will become the first message of the next thread.
+                    if dataToFile != []: 
+                        threadWriter.writerow(dataToFile)
+                        dataToFile = []
                     # Use regex to find the thread number within parentheses, create the chat thread csv
                     match = re.search(r'\((\d+)\)', line)
                     if match:
