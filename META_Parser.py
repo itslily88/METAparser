@@ -51,6 +51,9 @@ def extractSectionToText(htmlFilePath, outputTextFilePath, keywords):
                     # Remove everything between < and > including those characters
                     cleanLine = re.sub(r'<[^>]*>', '', cleanLine).strip()
                     
+                    # Handle first instance of a Thread where it may be on the same line as the Unified Messages Marker
+                    cleanLine = re.sub('Unified Messages', '', cleanLine)
+
                     # Skip blank lines
                     if not cleanLine: continue
 
